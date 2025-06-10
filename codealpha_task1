@@ -1,0 +1,45 @@
+
+main script
+from scapy.all import sniff, Ether, IP, TCP, UDP
+
+def packet_handler(packet):
+    # Extract basic network layer information
+    if packet.haslayer(IP):
+        src_ip = packet[IP].src
+        dst_ip = packet[IP].dst
+        protocol = packet[IP].proto
+        
+        print(f"IP Packet: {src_ip} -> {dst_ip} | Protocol: {protocol}")
+        
+        # Transport layer analysis
+        if packet.haslayer(TCP):
+            print(f"TCP: {packet[TCP].sport} -> {packet[TCP].dport}")
+        elif packet.haslayer(UDP):
+            print(f"UDP: {packet[UDP].sport} -> {packet[UDP].dport}")
+
+# Start sniffing (requires admin privileges)
+sniff(prn=packet_handler, store=0, count=50)
+
+
+
+
+dependencies
+
+pip install scapy
+pip install pandas  # For data analysis (optional)
+
+
+
+
+
+
+documentation 
+
+
+
+# Network Traffic Analyzer
+Python-based packet sniffer using Scapy  
+Captures IP/TCP/UDP traffic and analyzes protocol distribution
+
+## Usage
+sudo python sniffer.py
